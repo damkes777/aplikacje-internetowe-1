@@ -32,9 +32,9 @@ nav {
 	border-top: 1px solid #5d6264;
 	border-bottom: 1px solid #5d6264;
 	margin-bottom: 80px;
-	-webkit-box-shadow: 0px 0px 24px 0px rgba(106, 108, 117, 1);
-	-moz-box-shadow: 0px 0px 24px 0px rgba(106, 108, 117, 1);
-	box-shadow: 0px 0px 24px 0px rgba(106, 108, 117, 1);
+	-webkit-box-shadow: 0 0 24px 0 rgba(106, 108, 117, 1);
+	-moz-box-shadow: 0 0 24px 0 rgba(106, 108, 117, 1);
+	box-shadow: 0 0 24px 0 rgba(106, 108, 117, 1);
 }
 nav div {
 	width: 33%;
@@ -61,15 +61,14 @@ nav a:hover {
 aside {
 	display: flex;
 	flex-direction: column;
-	margin: 0px 25px;
 	padding: 25px;
 	border-radius: 10px;
-	margin-bottom: 25px;
+	margin: 0 25px 25px;
 	background-color: #7da0ca;
 	color: #f1f1f1;
 }
 h2 {
-	margin: 0px 40px;
+	margin: 0 40px;
 	text-align: center;
 	font-size: 1.2rem;
 	text-transform: uppercase;
@@ -89,13 +88,13 @@ main p {
 	font-size: 1rem;
 }
 .article {
-	margin: 25px 0px;
+	margin: 25px 0;
 	padding: 10px;
 	background-color: #c1e8ff;
 	border-radius: 5px;
-	-webkit-box-shadow: 10px 10px 24px 0px rgba(106, 108, 117, 1);
-	-moz-box-shadow: 10px 10px 24px 0px rgba(106, 108, 117, 1);
-	box-shadow: 10px 10px 24px 0px rgba(106, 108, 117, 1);
+	-webkit-box-shadow: 10px 10px 24px 0 rgba(106, 108, 117, 1);
+	-moz-box-shadow: 10px 10px 24px 0 rgba(106, 108, 117, 1);
+	box-shadow: 10px 10px 24px 0 rgba(106, 108, 117, 1);
 }
 footer {
 	display: flex;

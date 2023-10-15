@@ -63,13 +63,13 @@ nav a:hover::after {
 }
 main {
 	max-width: 700px;
-	margin: 100px 20px 0px 20px;
+	margin: 100px 20px 0 20px;
 	padding: 25px 10px;
 	background-color: #424769;
 	border-radius: 15px;
-	-webkit-box-shadow: 0px 0px 24px 0px rgba(66, 68, 90, 1);
-	-moz-box-shadow: 0px 0px 24px 0px rgba(66, 68, 90, 1);
-	box-shadow: 0px 0px 24px 0px rgba(66, 68, 90, 1);
+	-webkit-box-shadow: 0 0 24px 0 rgba(66, 68, 90, 1);
+	-moz-box-shadow: 0 0 24px 0 rgba(66, 68, 90, 1);
+	box-shadow: 0 0 24px 0 rgba(66, 68, 90, 1);
 }
 h2 {
 	padding-bottom: 15px;
@@ -104,9 +104,9 @@ aside {
     padding: 20px;
 	border-radius: 15px;
 	background-color: #424769;
-	-webkit-box-shadow: 0px 0px 24px 0px rgba(66, 68, 90, 1);
-	-moz-box-shadow: 0px 0px 24px 0px rgba(66, 68, 90, 1);
-	box-shadow: 0px 0px 24px 0px rgba(66, 68, 90, 1);
+	-webkit-box-shadow: 0 0 24px 0 rgba(66, 68, 90, 1);
+	-moz-box-shadow: 0 0 24px 0 rgba(66, 68, 90, 1);
+	box-shadow: 0 0 24px 0 rgba(66, 68, 90, 1);
 }
 
 footer {
@@ -202,6 +202,6 @@ footer button:hover {
 		justify-content: center;
 		align-items: center;
 		align-content: center;
-        padding: 0px 50px;
+        padding: 0 50px;
 	}
 }
