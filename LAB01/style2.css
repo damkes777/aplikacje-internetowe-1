@@ -50,8 +50,7 @@ nav a {
 	text-align: center;
 	cursor: pointer;
 }
-nav a::after,
-footer li::after {
+nav a::after {
 	content: '';
 	display: block;
 	width: 0;
@@ -59,8 +58,7 @@ footer li::after {
 	background: #f9b17a;
 	transition: width 0.3s;
 }
-nav a:hover::after,
-footer li:hover::after {
+nav a:hover::after {
 	width: 100%;
 }
 main {
@@ -134,7 +132,10 @@ footer ul li {
 	margin: 10px;
 	list-style-type: none;
 }
-
+footer a {
+	color: #676f9d;
+	text-decoration: none;
+}
 footer li:last-child {
 	cursor: pointer;
 }
