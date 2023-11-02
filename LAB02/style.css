@@ -10,6 +10,7 @@
     --light-blue: rgb(0, 132, 255);
     --dark-blue: rgb(2, 84, 161);
     --light: rgb(245, 245, 245);
+    --yellow: rgb(255, 255, 102);
 }
 
 body {
@@ -88,7 +89,7 @@ h1 {
 
 .todolist li {
     display: flex;
-    justify-content: space-between;
+    /*justify-content: space-between;*/
     align-items: center;
     margin: 15px;
     padding-left: 20px;
@@ -99,8 +100,18 @@ h1 {
     cursor: pointer;
 }
 
+.todolist li p {
+    margin-left: 50px;
+}
+
+.error-info {
+    margin-top: 20px;
+    color: var(--dark-blue);
+}
+
 .tools {
     display: inline-block;
+    margin-left: auto;
 }
 
 .tools button {
@@ -200,4 +211,6 @@ h1 {
 .todolist li:hover {
     background-color: #ddd;
 }
-
+.highlighted {
+    background-color: var(--yellow);
+}

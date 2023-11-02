@@ -11,10 +11,12 @@ let popupCloseBtn
 let inputDate
 let popupDate
 let todoArray = []
+let todoSearch
 
 const main = () => {
     prepareDOMElements()
     prepareDOMEvents()
+    loadTodosFromLocalStorage()
 }
 
 const prepareDOMElements = () => {
@@ -29,6 +31,7 @@ const prepareDOMElements = () => {
     popupInput = document.querySelector('.popup-input')
     popupAddBtn = document.querySelector('.accept')
     popupCloseBtn = document.querySelector('.cancel')
+    todoSearch = document.querySelector('.todo-search')
 }
 
 const prepareDOMEvents = () => {
@@ -36,6 +39,7 @@ const prepareDOMEvents = () => {
     ulList.addEventListener('click', checkClick)
     popupCloseBtn.addEventListener('click', closePopup)
     popupAddBtn.addEventListener('click', changeTodoValue)
+    todoSearch.addEventListener('input', searchTodos)
 }
 
 const addNewTodo = () => {
@@ -49,6 +53,14 @@ const addNewTodo = () => {
         newTodo.append(newTodoDate)
         createToolsArea(newTodo)
         ulList.append(newTodo)
+
+        todoArray.push({
+            text: todoInput.value,
+            date: inputDate.value,
+            completed: false,
+        })
+
+        saveTodosToLocalStorage()
 
         todoInput.value = ''
         inputDate.value = ''
@@ -77,6 +89,12 @@ const createToolsArea = (newTodo) => {
 const checkClick = event => {
     if (event.target.matches('.complete')) {
         event.target.closest('li').classList.toggle('completed')
+
+        const todoElement = event.target.closest('li')
+        const index = Array.from(todoElement.parentNode.children).indexOf(todoElement)
+        todoArray[index].completed = !todoArray[index].completed
+
+        saveTodosToLocalStorage()
     }
     else if (event.target.matches('li')) {
         editTodo(event)
@@ -104,21 +122,93 @@ const changeTodoValue = () => {
         todoToEdit.childNodes[1].textContent = popupDate.value
         popup.style.display = 'none'
         popupInfo.textContent = ''
+
+        const index = Array.from(todoToEdit.parentNode.children).indexOf(todoToEdit)
+        todoArray[index].text = popupInput.value
+        todoArray[index].date = popupDate.value
+
+        saveTodosToLocalStorage()
     } else {
         popupInfo.textContent = 'Musisz podać treść'
     }
 }
 
 const deleteTodo = event => {
-    event.target.closest('li').remove()
-    const allTodos = document.querySelectorAll('li')
+    const todoElement = event.target.closest('li')
+    if (todoElement) {
+        todoElement.remove()
 
-    if (allTodos.length === 0) {
-        errorInfo.textContent = 'Brak zadań na liście'
+        const index = todoArray.findIndex(todo => todo.text === todoElement.firstChild.textContent)
+        if (index !== -1) {
+            todoArray.splice(index, 1)
+        }
+
+        saveTodosToLocalStorage()
+
+        const allTodos = document.querySelectorAll('li')
+        if (allTodos.length === 0) {
+            errorInfo.textContent = 'Brak zadań na liście'
+        }
     }
-
 }
 
+const saveTodosToLocalStorage = () => {
+    localStorage.setItem('todos', JSON.stringify(todoArray))
+}
 
+const loadTodosFromLocalStorage = () => {
+    const todos = localStorage.getItem('todos')
+
+    if (todos) {
+        todoArray = JSON.parse(todos)
+
+        todoArray.forEach(todo => {
+            const newTodo = document.createElement('li')
+            const newTodoDate = document.createElement('p')
+
+            newTodoDate.textContent = todo.date
+            newTodo.textContent = todo.text;
+
+            newTodo.append(newTodoDate)
+            createToolsArea(newTodo)
+            ulList.append(newTodo)
+
+            if (todo.completed) {
+                newTodo.classList.add('completed')
+            }
+        })
+    }
+}
+
+const searchTodos = () => {
+    const searchQuery = todoSearch.value.trim().toLocaleLowerCase()
+    if (searchQuery.length >= 2) {
+        ulList.innerHTML = ''
+
+        todoArray.forEach(todo => {
+            if (todo.text.toLocaleLowerCase().includes(searchQuery)) {
+                const newTodo = document.createElement('li');
+                const newTodoDate = document.createElement('p')
+
+                newTodoDate.textContent = todo.date
+                newTodo.textContent = todo.text
+
+                const searchRegex = new RegExp(`(${searchQuery})`, 'gi')
+                newTodo.innerHTML = newTodo.textContent.replace(searchRegex, '<span class="highlighted">$1</span>')
+
+                newTodo.append(newTodoDate)
+                createToolsArea(newTodo)
+                ulList.append(newTodo)
+
+                if (todo.completed) {
+                    newTodo.classList.add('completed')
+                }
+            }
+        })
+    } else {
+        ulList.innerHTML = ''
+        loadTodosFromLocalStorage()
+    }
+}
 
 document.addEventListener('DOMContentLoaded', main)
