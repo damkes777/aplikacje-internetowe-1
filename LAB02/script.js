@@ -43,7 +43,7 @@ const prepareDOMEvents = () => {
 }
 
 const addNewTodo = () => {
-    if (todoInput.value !== '') {
+    if (todoInput.value.length >= 3 && todoInput.value.length <= 255) {
         const newTodo = document.createElement('li')
         const newTodoDate = document.createElement('p')
 
@@ -65,8 +65,12 @@ const addNewTodo = () => {
         todoInput.value = ''
         inputDate.value = ''
         errorInfo.textContent = ''
-    } else {
-        errorInfo.textContent = 'Wpisz treść zadania'
+    }
+    else if (todoInput.value.length < 3) {
+        errorInfo.textContent = 'Treść zadania musi mieć minimum 3 znaki'
+    }
+    else if (todoInput.value.length >= 255) {
+        errorInfo.textContent = 'Treść zadania nie może mieć więcej niż 255 znaki'
     }
 }
 
@@ -117,19 +121,24 @@ const closePopup = () => {
 }
 
 const changeTodoValue = () => {
-    if (popupInput.value !== '') {
+    if (popupInput.value.length >= 3 && popupInput.value.length <= 255) {
         todoToEdit.firstChild.textContent = popupInput.value
         todoToEdit.childNodes[1].textContent = popupDate.value
         popup.style.display = 'none'
         popupInfo.textContent = ''
+        errorInfo.textContent = ''
 
         const index = Array.from(todoToEdit.parentNode.children).indexOf(todoToEdit)
         todoArray[index].text = popupInput.value
         todoArray[index].date = popupDate.value
 
         saveTodosToLocalStorage()
-    } else {
-        popupInfo.textContent = 'Musisz podać treść'
+    }
+    else if (popupInput.value.length < 3) {
+        errorInfo.textContent = 'Treść zadania musi mieć minimum 3 znaki'
+    }
+    else if (popupInput.value.length >= 255) {
+        errorInfo.textContent = 'Treść zadania nie może mieć więcej niż 255 znaki'
     }
 }
 
