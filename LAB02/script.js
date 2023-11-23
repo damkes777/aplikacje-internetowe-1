@@ -43,33 +43,43 @@ const prepareDOMEvents = () => {
 }
 
 const addNewTodo = () => {
-    if (todoInput.value.length >= 3 && todoInput.value.length <= 255) {
-        const newTodo = document.createElement('li')
-        const newTodoDate = document.createElement('p')
+    let actualDate = new Date()
+    let compareDate = new Date(inputDate.value)
+    let compareTodoInput = todoInput.value.trim()
 
-        newTodoDate.textContent = inputDate.value
-        newTodo.textContent = todoInput.value
+    if (compareTodoInput.length >= 3 && compareTodoInput.length <= 255) {
 
-        newTodo.append(newTodoDate)
-        createToolsArea(newTodo)
-        ulList.append(newTodo)
+        if (actualDate <= compareDate) {
+            const newTodo = document.createElement('li')
+            const newTodoDate = document.createElement('p')
 
-        todoArray.push({
-            text: todoInput.value,
-            date: inputDate.value,
-            completed: false,
-        })
+            newTodoDate.textContent = inputDate.value
+            newTodo.textContent = todoInput.value
 
-        saveTodosToLocalStorage()
+            newTodo.append(newTodoDate)
+            createToolsArea(newTodo)
+            ulList.append(newTodo)
 
-        todoInput.value = ''
-        inputDate.value = ''
-        errorInfo.textContent = ''
+            todoArray.push({
+                text: todoInput.value,
+                date: inputDate.value,
+                completed: false,
+            })
+
+            saveTodosToLocalStorage()
+
+            todoInput.value = ''
+            inputDate.value = ''
+            errorInfo.textContent = ''
+        } else {
+            errorInfo.textContent = 'aktualna data nie może być wcześniejsza niz dzisiaj'
+        }
+
     }
-    else if (todoInput.value.length < 3) {
+    else if (compareTodoInput.length < 3) {
         errorInfo.textContent = 'Treść zadania musi mieć minimum 3 znaki'
     }
-    else if (todoInput.value.length >= 255) {
+    else if (compareTodoInput.length >= 255) {
         errorInfo.textContent = 'Treść zadania nie może mieć więcej niż 255 znaki'
     }
 }
@@ -121,23 +131,32 @@ const closePopup = () => {
 }
 
 const changeTodoValue = () => {
-    if (popupInput.value.length >= 3 && popupInput.value.length <= 255) {
-        todoToEdit.firstChild.textContent = popupInput.value
-        todoToEdit.childNodes[1].textContent = popupDate.value
-        popup.style.display = 'none'
-        popupInfo.textContent = ''
-        errorInfo.textContent = ''
+    let actualDate = new Date()
+    let compareDate = new Date(inputDate.value)
+    let compareTodoInput = todoInput.value.trim()
 
-        const index = Array.from(todoToEdit.parentNode.children).indexOf(todoToEdit)
-        todoArray[index].text = popupInput.value
-        todoArray[index].date = popupDate.value
+    if (compareTodoInput.length >= 3 && compareTodoInput.length <= 255) {
+        if (actualDate <= compareDate) {
+            todoToEdit.firstChild.textContent = popupInput.value
+            todoToEdit.childNodes[1].textContent = popupDate.value
+            popup.style.display = 'none'
+            popupInfo.textContent = ''
+            errorInfo.textContent = ''
 
-        saveTodosToLocalStorage()
+            const index = Array.from(todoToEdit.parentNode.children).indexOf(todoToEdit)
+            todoArray[index].text = popupInput.value
+            todoArray[index].date = popupDate.value
+
+            saveTodosToLocalStorage()
+        } else {
+            errorInfo.textContent = 'aktualna data nie może być wcześniejsza niz dzisiaj'
+        }
+
     }
-    else if (popupInput.value.length < 3) {
+    else if (compareTodoInput.length < 3) {
         errorInfo.textContent = 'Treść zadania musi mieć minimum 3 znaki'
     }
-    else if (popupInput.value.length >= 255) {
+    else if (compareTodoInput.length >= 255) {
         errorInfo.textContent = 'Treść zadania nie może mieć więcej niż 255 znaki'
     }
 }
