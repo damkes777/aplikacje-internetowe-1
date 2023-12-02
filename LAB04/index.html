@@ -9,14 +9,21 @@
   <script src="https://kit.fontawesome.com/8c67a8fc2b.js" crossorigin="anonymous"></script>
 </head>
 <body>
-<div class="weather-app">
-  <div class="weather-header">
+  <div class="main">
+      <p class="location"></p>
+      <label>
+          <input type="text" class="weather-input">
+      </label>
+      <button type="button" class="weather-btn">Szukaj</button>
+      <div class="current-weather">
+        <p class="temperature"></p>
+        <p class="wind hide"><i class="fa-solid fa-wind"></i><span class="wind-value"></span></p>
+      </div>
+      <div class="forecast-weather-container">
 
+      </div>
   </div>
-  <div class="days">
-    <ul>
 
-    </ul>
-  </div>
-</div>
+
+<script rel="script" src="script.js"></script>
 </body>
