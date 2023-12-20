@@ -1,7 +1,8 @@
 let geoBtn
 let rasterBtn
 let puzzle
-let map = L.map('map')
+let map
+
 const main = () => {
     prepareElements()
     prepareEvents()
@@ -15,56 +16,52 @@ const prepareElements = () => {
 }
 
 const prepareEvents = () => {
-    geoBtn.addEventListener('click', startLocalization)
     rasterBtn.addEventListener('click', raster)
+    geoBtn.addEventListener('click', getGeolocation)
 }
 
-const startLocalization = () => {
-    navigator.geolocation.getCurrentPosition(successCallBack, errorCallBack)
 
-    geoBtn.style.display = 'none'
-
-}
-
-const randomBetween = (min, max) => {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-
-    return Math.floor(Math.random() * (max - min + 1) + min)
-}
 const generateMap = () => {
+    map = L.map('map').setView([53, 14], 18)
+    L.tileLayer.provider('Esri.WorldImagery').addTo(map)
+}
 
-    map.setView([randomBetween(-90, 90), randomBetween(-180, 180)], 10)
+const getGeolocation = () => {j
+    navigator.geolocation.getCurrentPosition(position => {
+        console.log(position)
 
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(map);
+        let lat = position.coords.latitude
+        let lon = position.coords.longitude
 
+        map.setView([lat, lon])
+        geoBtn.classList.add('hidden')
+
+    }, positionError => {
+        console.log(positionError)
+    })
 }
 
 const raster = () => {
     leafletImage(map, function (err, canvas) {
-        // Create an image element
-        const img = new Image();
-        img.src = canvas.toDataURL();
+        let rasterMap = document.querySelector('#rasterMap')
+        let rasterContent = rasterMap.getContext('2d')
+        rasterMap.classList.remove('hidden')
+        rasterBtn.classList.add('hidden')
+        // map.classList.add('hidden')
 
-        // Clear the puzzle div and append the image
-        puzzle.innerHTML = '';
-        puzzle.appendChild(img);
-    });
+        rasterContent.drawImage(canvas, 0, 0, 300, 150)
+
+    })
 }
 
-const successCallBack = (position) => {
-    let latitude = position.coords.latitude
-    let longitude = position.coords.longitude
-
-    map.setView([latitude, longitude], 15)
-
-}
-
-const errorCallBack = (error) => {
-    generateMapWithOutLocalization()
-}
+// const raster = () => {
+//     console.log('raster')
+//     leafletImage(map, function (err, canvas) {
+//         let rasterMap = document.querySelector('#rasterMap')
+//         let rasterContent = rasterMap.getContext('2d')
+//
+//         rasterContent.drawImage(canvas, 0, 0, 300, 150);
+//     })
+// }
 
 document.addEventListener('DOMContentLoaded', main)
